@@ -27,15 +27,13 @@ ROS eneabled Lego robot using Python 2
     `ssh robot@IPADDRESS` ... the password is: maker
 
 ### Project
-* Clone the code into your `~/ros_catkin_ws/src` directory if you haven't already:
-  
-    `cd ~/ros_catkin_ws/src`
+* Clone the code into your chosen directory if you haven't already:
     
-    `git clone https://github.com/themotleycoder/roslegorobot.git`
+    `git clone https://github.com/themotleycoder/legorobot_ws.git`
 
 * then...
 
-    `cd ~/ros_catkin_ws`
+    `cd ~/legorobot_ws`
 
     `pip install pynput`
 
@@ -43,7 +41,9 @@ ROS eneabled Lego robot using Python 2
 
 * Now we need to install the robot scripts on the EV3:
   
-    `scp src/legorobot/robotscripts/* robot@IPADDRESS:`
+    `scp src/legorobot/robotscripts/* robot@IPADDRESS:` 
+    
+    Password is maker
 
 ## RPI
 * apt-get install git
@@ -86,12 +86,29 @@ To verify that Docker is installed and running
 
     docker info
 
-## RPi Docker Specifics
-    docker run --network host --name legorobot -e ROS_IP=172.17.0.1 -e ROS_MASTER_URI=http://172.17.0.1:11311 -it legorobot
+### Docker Run Specifics
+    docker run --network host --name legorobot -e ROS_IP=[IP Address of Master] -e ROS_MASTER_URI=http://[IP Address of Master]:11311 -it legorobot
 
+### Start ROS master
 
-## Useful Commands:
-* rosdep update
-* source devel/setup.bash
-* catkin_make install
-* docker exec -it legorobot sh -c bash
+    roscore
+
+## Useful Docker/ROS Commands:
+
+To access the docker image with a new terminal:
+
+    docker exec -it legorobot sh -c bash
+
+To run `apt-get update` and install `nano` (for example) on a docker container that is running:
+
+    docker exec -it legorobot sh -c "apt-get update && apt-get install nano"
+
+To source the ROS environment after exec-ing into Docker:
+  
+    source /opt/ros/melodic/setup.bash
+
+To run ROS commands in the new docker terminal:
+
+    catkin_make install
+    source devel/setup.bash
+
