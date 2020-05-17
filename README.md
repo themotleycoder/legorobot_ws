@@ -1,7 +1,9 @@
 # legorobot
+
 ROS eneabled Lego robot using Python 2
 
 ## Requirements:
+
 * Python 2
   * PYNPUT library for keyboard control
 * PIP
@@ -15,6 +17,7 @@ ROS eneabled Lego robot using Python 2
 ## Setup (Using an Ubuntu laptop as ROS publisher):
 
 ### ROS (Melodic)
+
 * Follow instructions provided here: http://wiki.ros.org/melodic/Installation/Ubuntu
 * I used the 'desktop full install' option as I wanted the additonal ROS tools installed
 
@@ -67,7 +70,7 @@ Import Docker GPG key
 
 Setup the Docker Repo
 
-    nano vim /etc/apt/sources.list
+    sudo nano /etc/apt/sources.list
 
 Add the following line and save:
 
@@ -86,14 +89,22 @@ To verify that Docker is installed and running
 
     docker info
 
+### Install Container
+
+### Copy Docker image to RPi (without using a registry)
+  
+    docker save -o <path for generated tar file> <image name>
+    docker load -i <path to image tar file>
+
+
 ### Docker Run Specifics
-    docker run --network host --name legorobot -e ROS_IP=[IP Address of Master] -e ROS_MASTER_URI=http://[IP Address of Master]:11311 -it legorobot
+    docker run --network host --name legorobot -it legorobot
 
 ### Start ROS master
 
     roscore
 
-## Useful Docker/ROS Commands:
+## Useful Docker/ROS Commands
 
 To access the docker image with a new terminal:
 
@@ -109,6 +120,7 @@ To source the ROS environment after exec-ing into Docker:
 
 To run ROS commands in the new docker terminal:
 
+    cd ./legorobot_ws
     catkin_make install
     source devel/setup.bash
 
